@@ -29,16 +29,116 @@ modul_literature_review_ui <- function(id) {
   ns <- NS(id)
   
   fluidPage(
+  
     
     
     
-    uiOutput(ns("radio_button_pilih_topik")),
+    tabsetPanel(
+      
+      tabPanel(title = tags$h5( tags$img(src = "icon_select.gif", width = "30px"), 'Pilih Topik'),
+               
+               
+               uiOutput(ns("radio_button_pilih_topik")),
+               
+               br()
+               
+               
+      ), #Akhir tabpanel pilih topik
+      
+      
+      tabPanel(title = tags$h5( tags$img(src = "icon_literatur.gif", width = "30px"), 'Data Referensi'),
+               
+               
+               uiOutput(ns("buka_pemilihan_informasi_hargasaham_endogen_plssem")),
+               DT::DTOutput(ns("buka_data_hargasaham_endogen_plssem")),
+               
+               
+               uiOutput(ns("buka_pemilihan_informasi_roa_terhadap_hargasaham")),
+               DT::DTOutput(ns("buka_data_roa_terhadap_hargasaham")),
+               
+               
+               uiOutput(ns("buka_pemilihan_informasi_roa_terhadap_hargasaham_plssem_smartpls")),
+               DT::DTOutput(ns("buka_data_roa_terhadap_hargasaham_plssem_smartpls")),
+               
+               
+               uiOutput(ns("buka_pemilihan_informasi_der_terhadap_hargasaham_plssem_smartpls")),
+               DT::DTOutput(ns("buka_data_der_terhadap_hargasaham_plssem_smartpls")),
+            
+               
+               uiOutput(ns("buka_pemilihan_informasi_dpr_terhadap_hargasaham_plssem_smartpls")),
+               DT::DTOutput(ns("buka_data_dpr_terhadap_hargasaham_plssem_smartpls")),   
+               
+               
+               
+               
+               
+               
+               uiOutput(ns("buka_pemilihan_informasi_roa_terhadap_kebijakandividen_plssem_smartpls")),
+               DT::DTOutput(ns("buka_data_roa_terhadap_kebijakandividen_plssem_smartpls")),
+               
+               
+               uiOutput(ns("buka_pemilihan_informasi_der_terhadap_kebijakandividen_plssem_smartpls")),
+               DT::DTOutput(ns("buka_data_der_terhadap_kebijakandividen_plssem_smartpls")),
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               br()
+               
+               
+      ) #Akhir tabpanel data referensi
+      
+      
+      
+    ), #Akhir tabsetpanel
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
     
     
     br(),
     
-    uiOutput(ns("buka_pemilihan_informasi_hargasaham_endogen_plssem")),
-    uiOutput(ns("buka_pemilihan_informasi_roa_terhadap_hargasaham")),
+
+    
+    
     
     
    # uiOutput(ns("buka_pemilihan_informasi_Kumpulan_Artikel_di_Jurnal_dengan_Metode_Analisis_Data_PLSSEM")),
@@ -51,8 +151,8 @@ modul_literature_review_ui <- function(id) {
     
     
     #DT::DTOutput(ns("buka_data")),
-    DT::DTOutput(ns("buka_data_hargasaham_endogen_plssem")),
-   DT::DTOutput(ns("buka_data_roa_terhadap_hargasaham")),
+
+
                
 
     
@@ -182,9 +282,20 @@ modul_literature_review_server <- function(input, output, session) {
     
     nama_topik <- c("Harga Saham sebagai Variabel Endogen (PLS-SEM, SmartPLS) (16 Artikel)",
                     
-                    "Return on Asset (ROA) terhadap Harga Saham (30 Artikel)"
+                    "Return on Asset (ROA) terhadap Harga Saham (30 Artikel)",
   
+                    "Return on Asset (ROA) terhadap Harga Saham (PLS-SEM, SmartPLS) (1 Artikel)",
                     
+                    "Debt to Equity Ratio (DER) terhadap Harga Saham (PLS-SEM, SmartPLS) (1 Artikel)",
+                    
+                    "Kebijakan Dividen terhadap Harga Saham (PLS-SEM, SmartPLS) (1 Artikel)",
+                    
+                    
+                    
+                    
+                    "Return on Asset (ROA) terhadap Kebijakan Dividen (PLS-SEM, SmartPLS) (1 Artikel)",
+                    
+                    "Debt to Equity Ratio (DER) terhadap Kebijakan Dividen (PLS-SEM, SmartPLS) (1 Artikel)"
                     
                  
                     )
@@ -468,6 +579,641 @@ modul_literature_review_server <- function(input, output, session) {
   
   
   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  #########################
+  #########################
+  
+  
+  nama_variabel_roa_terhadap_hargasaham_plssem_smartpls <- function()
+  {
+    
+    dat <- read_xlsx("ROA TERHADAP HARGA SAHAM, PLSSEM SMARTPLS.xlsx")
+    dat <- as.data.frame(dat)
+    
+    nama <- colnames(dat)
+    
+    return(nama)
+    
+    
+  }
+  
+  
+  
+  
+  
+  
+  
+  output$buka_pemilihan_informasi_roa_terhadap_hargasaham_plssem_smartpls <- renderUI({
+    
+    
+    
+    if(input$terpilih_topik_paper == "Return on Asset (ROA) terhadap Harga Saham (PLS-SEM, SmartPLS) (1 Artikel)")
+    {
+      
+      
+      checkboxGroupInput(session$ns("terpilih_variabel_roa_terhadap_hargasaham_plssem_smartpls"), 
+                         label="Pilih Variabel:", choices = c(nama_variabel_roa_terhadap_hargasaham_plssem_smartpls()), 
+                         selected=c("Jurnal/Prosiding", "Judul Artikel", "Tahun", "Author", "Sinta", "Scopus", "Variabel Menuju ke Harga Saham", "Hasil" ), inline = TRUE)
+      
+      
+    }
+    
+    
+    
+  })
+  
+  
+  
+  
+  
+  ##################
+  
+  
+  
+  
+  
+  output$buka_data_roa_terhadap_hargasaham_plssem_smartpls <- DT::renderDT({
+    
+    
+    if(input$terpilih_topik_paper == "Return on Asset (ROA) terhadap Harga Saham (PLS-SEM, SmartPLS) (1 Artikel)")
+    {
+      
+      dat <- read_xlsx("ROA TERHADAP HARGA SAHAM, PLSSEM SMARTPLS.xlsx")
+      dat <- as.data.frame(dat)
+      
+      nama <- colnames(dat)
+      
+      
+      terpilih_variabel_roa_terhadap_hargasaham_plssem_smartpls <- input$terpilih_variabel_roa_terhadap_hargasaham_plssem_smartpls
+      
+      dat_baru <- dat[c(terpilih_variabel_roa_terhadap_hargasaham_plssem_smartpls)]
+      
+      print(dat_baru)
+      
+      
+    }
+    
+    
+  })
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  #########################
+  #########################
+  
+  
+  nama_variabel_der_terhadap_hargasaham_plssem_smartpls <- function()
+  {
+    
+    dat <- read_xlsx("DER TERHADAP HARGA SAHAM, PLSSEM SMARTPLS.xlsx")
+    dat <- as.data.frame(dat)
+    
+    nama <- colnames(dat)
+    
+    return(nama)
+    
+    
+  }
+  
+  
+  
+  
+  
+  
+  
+  output$buka_pemilihan_informasi_der_terhadap_hargasaham_plssem_smartpls <- renderUI({
+    
+    
+    
+    if(input$terpilih_topik_paper == "Debt to Equity Ratio (DER) terhadap Harga Saham (PLS-SEM, SmartPLS) (1 Artikel)")
+    {
+      
+      
+      checkboxGroupInput(session$ns("terpilih_variabel_der_terhadap_hargasaham_plssem_smartpls"), 
+                         label="Pilih Variabel:", choices = c(nama_variabel_der_terhadap_hargasaham_plssem_smartpls()), 
+                         selected=c("Jurnal/Prosiding", "Judul Artikel", "Tahun", "Author", "Sinta", "Scopus", "Variabel Menuju ke Harga Saham", "Hasil" ), inline = TRUE)
+      
+      
+    }
+    
+    
+    
+  })
+  
+  
+  
+  
+  
+  ##################
+  
+  
+  
+  
+  
+  output$buka_data_der_terhadap_hargasaham_plssem_smartpls <- DT::renderDT({
+    
+    
+    if(input$terpilih_topik_paper == "Debt to Equity Ratio (DER) terhadap Harga Saham (PLS-SEM, SmartPLS) (1 Artikel)")
+    {
+      
+      dat <- read_xlsx("DER TERHADAP HARGA SAHAM, PLSSEM SMARTPLS.xlsx")
+      dat <- as.data.frame(dat)
+      
+      nama <- colnames(dat)
+      
+      
+      terpilih_variabel_der_terhadap_hargasaham_plssem_smartpls <- input$terpilih_variabel_der_terhadap_hargasaham_plssem_smartpls
+      
+      dat_baru <- dat[c(terpilih_variabel_der_terhadap_hargasaham_plssem_smartpls)]
+      
+      print(dat_baru)
+      
+      
+    }
+    
+    
+  })
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  #########################
+  #########################
+  
+  
+  nama_variabel_kebijakandividen_terhadap_hargasaham_plssem_smartpls <- function()
+  {
+    
+    dat <- read_xlsx("DPR TERHADAP HARGA SAHAM, PLSSEM SMARTPLS.xlsx")
+    dat <- as.data.frame(dat)
+    
+    nama <- colnames(dat)
+    
+    return(nama)
+    
+    
+  }
+  
+  
+  
+  
+  
+  
+  
+  output$buka_pemilihan_informasi_dpr_terhadap_hargasaham_plssem_smartpls <- renderUI({
+    
+    
+    
+    if(input$terpilih_topik_paper == "Kebijakan Dividen terhadap Harga Saham (PLS-SEM, SmartPLS) (1 Artikel)")
+    {
+      
+      
+      checkboxGroupInput(session$ns("terpilih_variabel_kebijakandividen_terhadap_hargasaham_plssem_smartpls"), 
+                         label="Pilih Variabel:", choices = c(nama_variabel_kebijakandividen_terhadap_hargasaham_plssem_smartpls()), 
+                         selected=c("Jurnal/Prosiding", "Judul Artikel", "Tahun", "Author", "Sinta", "Scopus", "Variabel Menuju ke Harga Saham", "Hasil" ), inline = TRUE)
+      
+      
+    }
+    
+    
+    
+  })
+  
+  
+  
+  
+  
+  ##################
+  
+  
+  
+  
+  
+  output$buka_data_dpr_terhadap_hargasaham_plssem_smartpls <- DT::renderDT({
+    
+    
+    if(input$terpilih_topik_paper == "Kebijakan Dividen terhadap Harga Saham (PLS-SEM, SmartPLS) (1 Artikel)")
+    {
+      
+      dat <- read_xlsx("DPR TERHADAP HARGA SAHAM, PLSSEM SMARTPLS.xlsx")
+      dat <- as.data.frame(dat)
+      
+      nama <- colnames(dat)
+      
+      
+      terpilih_variabel_kebijakandividen_terhadap_hargasaham_plssem_smartpls <- input$terpilih_variabel_kebijakandividen_terhadap_hargasaham_plssem_smartpls
+      
+      dat_baru <- dat[c(terpilih_variabel_kebijakandividen_terhadap_hargasaham_plssem_smartpls)]
+      
+      print(dat_baru)
+      
+      
+    }
+    
+    
+  })
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  #########################
+  #########################
+  
+  
+  nama_variabel_roa_terhadap_kebijakandividen_plssem_smartpls <- function()
+  {
+    
+    dat <- read_xlsx("ROA TERHADAP KEBIJAKAN DIVIDEN, PLSSEM SMARTPLS.xlsx")
+    dat <- as.data.frame(dat)
+    
+    nama <- colnames(dat)
+    
+    return(nama)
+    
+    
+  }
+  
+  
+  
+  
+  
+  
+  
+  output$buka_pemilihan_informasi_roa_terhadap_kebijakandividen_plssem_smartpls <- renderUI({
+    
+    
+    
+    if(input$terpilih_topik_paper == "Return on Asset (ROA) terhadap Kebijakan Dividen (PLS-SEM, SmartPLS) (1 Artikel)")
+    {
+      
+      
+      checkboxGroupInput(session$ns("terpilih_variabel_roa_terhadap_kebijakandividen_plssem_smartpls"), 
+                         label="Pilih Variabel:", choices = c(nama_variabel_roa_terhadap_kebijakandividen_plssem_smartpls()), 
+                         selected=c("Jurnal/Prosiding", "Judul Artikel", "Tahun", "Author", "Sinta", "Scopus", "Variabel Menuju ke Harga Saham", "Hasil" ), inline = TRUE)
+      
+      
+    }
+    
+    
+    
+  })
+  
+  
+  
+  
+  
+  ##################
+  
+  
+  
+  
+  
+  output$buka_data_roa_terhadap_kebijakandividen_plssem_smartpls <- DT::renderDT({
+    
+    
+    if(input$terpilih_topik_paper == "Return on Asset (ROA) terhadap Kebijakan Dividen (PLS-SEM, SmartPLS) (1 Artikel)")
+    {
+      
+      dat <- read_xlsx("ROA TERHADAP KEBIJAKAN DIVIDEN, PLSSEM SMARTPLS.xlsx")
+      dat <- as.data.frame(dat)
+      
+      nama <- colnames(dat)
+      
+      
+      terpilih_variabel_roa_terhadap_kebijakandividen_plssem_smartpls <- input$terpilih_variabel_roa_terhadap_kebijakandividen_plssem_smartpls
+      
+      dat_baru <- dat[c(terpilih_variabel_roa_terhadap_kebijakandividen_plssem_smartpls)]
+      
+      print(dat_baru)
+      
+      
+    }
+    
+    
+  })
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  #########################
+  #########################
+  
+  
+  nama_variabel_der_terhadap_kebijakandividen_plssem_smartpls <- function()
+  {
+    
+    dat <- read_xlsx("DER TERHADAP KEBIJAKAN DIVIDEN, PLSSEM SMARTPLS.xlsx")
+    dat <- as.data.frame(dat)
+    
+    nama <- colnames(dat)
+    
+    return(nama)
+    
+    
+  }
+  
+  
+  
+  
+  
+  
+  
+  output$buka_pemilihan_informasi_der_terhadap_kebijakandividen_plssem_smartpls <- renderUI({
+    
+    
+    
+    if(input$terpilih_topik_paper == "Debt to Equity Ratio (DER) terhadap Kebijakan Dividen (PLS-SEM, SmartPLS) (1 Artikel)")
+    {
+      
+      
+      checkboxGroupInput(session$ns("terpilih_variabel_der_terhadap_kebijakandividen_plssem_smartpls"), 
+                         label="Pilih Variabel:", choices = c(nama_variabel_der_terhadap_kebijakandividen_plssem_smartpls()), 
+                         selected=c("Jurnal/Prosiding", "Judul Artikel", "Tahun", "Author", "Sinta", "Scopus", "Variabel Menuju ke Harga Saham", "Hasil" ), inline = TRUE)
+      
+      
+    }
+    
+    
+    
+  })
+  
+  
+  
+  
+  
+  ##################
+  
+  
+  
+  
+  
+  output$buka_data_der_terhadap_kebijakandividen_plssem_smartpls <- DT::renderDT({
+    
+    
+    if(input$terpilih_topik_paper == "Debt to Equity Ratio (DER) terhadap Kebijakan Dividen (PLS-SEM, SmartPLS) (1 Artikel)")
+    {
+      
+      dat <- read_xlsx("DER TERHADAP KEBIJAKAN DIVIDEN, PLSSEM SMARTPLS.xlsx")
+      dat <- as.data.frame(dat)
+      
+      nama <- colnames(dat)
+      
+      
+      terpilih_variabel_der_terhadap_kebijakandividen_plssem_smartpls <- input$terpilih_variabel_der_terhadap_kebijakandividen_plssem_smartpls
+      
+      dat_baru <- dat[c(terpilih_variabel_der_terhadap_kebijakandividen_plssem_smartpls)]
+      
+      print(dat_baru)
+      
+      
+    }
+    
+    
+  })
   
   
   
