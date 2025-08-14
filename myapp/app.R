@@ -71,6 +71,32 @@ modul_literature_review_ui <- function(id) {
                
                
                
+               uiOutput(ns("buka_pemilihan_informasi_eps_terhadap_hargasaham_plssem_smartpls")),
+               DT::DTOutput(ns("buka_data_eps_terhadap_hargasaham_plssem_smartpls")),   
+               
+               
+               
+               uiOutput(ns("buka_pemilihan_informasi_roe_terhadap_hargasaham_plssem_smartpls")),
+               DT::DTOutput(ns("buka_data_roe_terhadap_hargasaham_plssem_smartpls")),   
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
+               
                
                
                uiOutput(ns("buka_pemilihan_informasi_roa_terhadap_kebijakandividen_plssem_smartpls")),
@@ -286,9 +312,21 @@ modul_literature_review_server <- function(input, output, session) {
   
                     "Return on Asset (ROA) terhadap Harga Saham (PLS-SEM, SmartPLS) (1 Artikel)",
                     
-                    "Debt to Equity Ratio (DER) terhadap Harga Saham (PLS-SEM, SmartPLS) (1 Artikel)",
+                    "Debt to Equity Ratio (DER) terhadap Harga Saham (PLS-SEM, SmartPLS) (2 Artikel)",
                     
                     "Kebijakan Dividen terhadap Harga Saham (PLS-SEM, SmartPLS) (1 Artikel)",
+                    
+                    
+                    "Earning per Share (EPS) terhadap Harga Saham (PLS-SEM, SmartPLS) (1 Artikel)",
+                    
+                    
+                    "Return on Equity (ROE) terhadap Harga Saham (PLS-SEM, SmartPLS) (1 Artikel)",
+                    
+                    
+                    
+                    
+                    
+                    
                     
                     
                     
@@ -798,7 +836,7 @@ modul_literature_review_server <- function(input, output, session) {
     
     
     
-    if(input$terpilih_topik_paper == "Debt to Equity Ratio (DER) terhadap Harga Saham (PLS-SEM, SmartPLS) (1 Artikel)")
+    if(input$terpilih_topik_paper == "Debt to Equity Ratio (DER) terhadap Harga Saham (PLS-SEM, SmartPLS) (2 Artikel)")
     {
       
       
@@ -826,7 +864,7 @@ modul_literature_review_server <- function(input, output, session) {
   output$buka_data_der_terhadap_hargasaham_plssem_smartpls <- DT::renderDT({
     
     
-    if(input$terpilih_topik_paper == "Debt to Equity Ratio (DER) terhadap Harga Saham (PLS-SEM, SmartPLS) (1 Artikel)")
+    if(input$terpilih_topik_paper == "Debt to Equity Ratio (DER) terhadap Harga Saham (PLS-SEM, SmartPLS) (2 Artikel)")
     {
       
       dat <- read_xlsx("DER TERHADAP HARGA SAHAM, PLSSEM SMARTPLS.xlsx")
@@ -1214,6 +1252,266 @@ modul_literature_review_server <- function(input, output, session) {
     
     
   })
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  #########################
+  #########################
+  
+  
+  nama_variabel_eps_terhadap_hargasaham_plssem_smartpls <- function()
+  {
+    
+    dat <- read_xlsx("EPS TERHADAP HARGA SAHAM, PLSSEM SMARTPLS.xlsx")
+    dat <- as.data.frame(dat)
+    
+    nama <- colnames(dat)
+    
+    return(nama)
+    
+    
+  }
+  
+  
+  
+  
+  
+  
+  
+  output$buka_pemilihan_informasi_eps_terhadap_hargasaham_plssem_smartpls <- renderUI({
+    
+    
+    
+    if(input$terpilih_topik_paper == "Earning per Share (EPS) terhadap Harga Saham (PLS-SEM, SmartPLS) (1 Artikel)")
+    {
+      
+      
+      checkboxGroupInput(session$ns("terpilih_variabel_eps_terhadap_hargasaham_plssem_smartpls"), 
+                         label="Pilih Variabel:", choices = c(nama_variabel_eps_terhadap_hargasaham_plssem_smartpls()), 
+                         selected=c("Jurnal/Prosiding", "Judul Artikel", "Tahun", "Author", "Sinta", "Scopus", "Variabel Menuju ke Harga Saham", "Hasil" ), inline = TRUE)
+      
+      
+    }
+    
+    
+    
+  })
+  
+  
+  
+  
+  
+  ##################
+  
+  
+  
+  
+  
+  output$buka_data_eps_terhadap_hargasaham_plssem_smartpls <- DT::renderDT({
+    
+    
+    if(input$terpilih_topik_paper == "Earning per Share (EPS) terhadap Harga Saham (PLS-SEM, SmartPLS) (1 Artikel)")
+    {
+      
+      dat <- read_xlsx("EPS TERHADAP HARGA SAHAM, PLSSEM SMARTPLS.xlsx")
+      dat <- as.data.frame(dat)
+      
+      nama <- colnames(dat)
+      
+      
+      terpilih_variabel_eps_terhadap_hargasaham_plssem_smartpls <- input$terpilih_variabel_eps_terhadap_hargasaham_plssem_smartpls
+      
+      dat_baru <- dat[c(terpilih_variabel_eps_terhadap_hargasaham_plssem_smartpls)]
+      
+      print(dat_baru)
+      
+      
+    }
+    
+    
+  })
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  #########################
+  #########################
+  
+  
+  nama_variabel_roe_terhadap_hargasaham_plssem_smartpls <- function()
+  {
+    
+    dat <- read_xlsx("ROE TERHADAP HARGA SAHAM, PLSSEM SMARTPLS.xlsx")
+    dat <- as.data.frame(dat)
+    
+    nama <- colnames(dat)
+    
+    return(nama)
+    
+    
+  }
+  
+  
+  
+  
+  
+  
+  
+  output$buka_pemilihan_informasi_roe_terhadap_hargasaham_plssem_smartpls <- renderUI({
+    
+    
+    
+    if(input$terpilih_topik_paper == "Return on Equity (ROE) terhadap Harga Saham (PLS-SEM, SmartPLS) (1 Artikel)")
+    {
+      
+      
+      checkboxGroupInput(session$ns("terpilih_variabel_roe_terhadap_hargasaham_plssem_smartpls"), 
+                         label="Pilih Variabel:", choices = c(nama_variabel_roe_terhadap_hargasaham_plssem_smartpls()), 
+                         selected=c("Jurnal/Prosiding", "Judul Artikel", "Tahun", "Author", "Sinta", "Scopus", "Variabel Menuju ke Harga Saham", "Hasil" ), inline = TRUE)
+      
+      
+    }
+    
+    
+    
+  })
+  
+  
+  
+  
+  
+  ##################
+  
+  
+  
+  
+  
+  output$buka_data_roe_terhadap_hargasaham_plssem_smartpls <- DT::renderDT({
+    
+    
+    if(input$terpilih_topik_paper == "Return on Equity (ROE) terhadap Harga Saham (PLS-SEM, SmartPLS) (1 Artikel)")
+    {
+      
+      dat <- read_xlsx("ROE TERHADAP HARGA SAHAM, PLSSEM SMARTPLS.xlsx")
+      dat <- as.data.frame(dat)
+      
+      nama <- colnames(dat)
+      
+      
+      terpilih_variabel_roe_terhadap_hargasaham_plssem_smartpls <- input$terpilih_variabel_roe_terhadap_hargasaham_plssem_smartpls
+      
+      dat_baru <- dat[c(terpilih_variabel_roe_terhadap_hargasaham_plssem_smartpls)]
+      
+      print(dat_baru)
+      
+      
+    }
+    
+    
+  })
+  
+  
+  
+  
+  
+  
   
   
   
