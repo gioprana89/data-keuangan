@@ -117,6 +117,10 @@ modul_literature_review_ui <- function(id) {
                
                
                
+               uiOutput(ns("buka_pemilihan_informasi_aplikasi_plssem_pada_perusahaan_yang_terdaftar_di_bei")),
+               DT::DTOutput(ns("buka_data_aplikasi_plssem_pada_perusahaan_yang_terdaftar_di_bei")),
+               
+               
                
                
                
@@ -333,7 +337,12 @@ modul_literature_review_server <- function(input, output, session) {
                     
                     "Return on Asset (ROA) terhadap Kebijakan Dividen (PLS-SEM, SmartPLS) (1 Artikel)",
                     
-                    "Debt to Equity Ratio (DER) terhadap Kebijakan Dividen (PLS-SEM, SmartPLS) (1 Artikel)"
+                    "Debt to Equity Ratio (DER) terhadap Kebijakan Dividen (PLS-SEM, SmartPLS) (1 Artikel)",
+                    
+                    
+                    
+                    
+                    "Aplikasi PLS-SEM pada Perusahaan yang Terdaftar di Bursa Efek Indonesia (PLS-SEM) (18 Artikel)"
                     
                  
                     )
@@ -1506,6 +1515,157 @@ modul_literature_review_server <- function(input, output, session) {
     
     
   })
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  #########################
+  #########################
+  
+  
+  nama_variabel_aplikasi_plssem_pada_perusahaan_yang_terdaftar_di_bei <- function()
+  {
+    
+    dat <- read_xlsx("Aplikasi PLS SEM pada Data Kinerja Keuangan Perusahaan yg Terdaftar di Bursa Efek Indonesia.xlsx")
+    dat <- as.data.frame(dat)
+    
+    nama <- colnames(dat)
+    
+    return(nama)
+    
+    
+  }
+  
+  
+  
+  
+  
+  
+  
+  output$buka_pemilihan_informasi_aplikasi_plssem_pada_perusahaan_yang_terdaftar_di_bei <- renderUI({
+    
+    
+    
+    if(input$terpilih_topik_paper == "Aplikasi PLS-SEM pada Perusahaan yang Terdaftar di Bursa Efek Indonesia (PLS-SEM) (18 Artikel)")
+    {
+      
+      
+      checkboxGroupInput(session$ns("terpilih_variabel_aplikasi_plssem_pada_perusahaan_yang_terdaftar_di_bei"), 
+                         label="Pilih Variabel:", choices = c(nama_variabel_aplikasi_plssem_pada_perusahaan_yang_terdaftar_di_bei()), 
+                         selected=c("Jurnal", "Tahun", "Judul", "Software", "Variabel"), inline = TRUE)
+      
+      
+    }
+    
+    
+    
+  })
+  
+  
+  
+  
+  
+  ##################
+  
+  
+  
+  
+  
+  output$buka_data_aplikasi_plssem_pada_perusahaan_yang_terdaftar_di_bei <- DT::renderDT({
+    
+    
+    if(input$terpilih_topik_paper == "Aplikasi PLS-SEM pada Perusahaan yang Terdaftar di Bursa Efek Indonesia (PLS-SEM) (18 Artikel)")
+    {
+      
+      dat <- read_xlsx("Aplikasi PLS SEM pada Data Kinerja Keuangan Perusahaan yg Terdaftar di Bursa Efek Indonesia.xlsx")
+      dat <- as.data.frame(dat)
+      
+      nama <- colnames(dat)
+      
+      
+      terpilih_variabel_aplikasi_plssem_pada_perusahaan_yang_terdaftar_di_bei <- input$terpilih_variabel_aplikasi_plssem_pada_perusahaan_yang_terdaftar_di_bei
+      
+      dat_baru <- dat[c(terpilih_variabel_aplikasi_plssem_pada_perusahaan_yang_terdaftar_di_bei)]
+      
+      print(dat_baru)
+      
+      
+    }
+    
+    
+  })
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   
